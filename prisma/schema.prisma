@@ -11,19 +11,16 @@ datasource db {
 
 // Modelo para Instrumentos
 model Instrumentos {
-  id              Int        @id @default(autoincrement())
-  nome            String     @db.VarChar(100)
-  tipo            String     @db.VarChar(50)
-  marca           String?    @db.VarChar(50)
-  modelo          String?    @db.VarChar(50)
-  preco           Decimal    @db.Decimal(10, 2)
-  quantidade      Int        @default(0)
-  descricao       String?    @db.VarChar(255)
-  data_aquisicao  DateTime?  @db.Date
-  status          Status     @default(disponivel)
-
-  // Relação com Vendas
-  vendas          Vendas[]   @relation("InstrumentoVendas")
+  id              Int      @id @default(autoincrement())
+  nome            String   @db.VarChar(100)
+  tipo            String   @db.VarChar(50)
+  marca           String?  @db.VarChar(50)
+  modelo          String?  @db.VarChar(50)
+  preco           Decimal  @db.Decimal(10, 2)
+  quantidade      Int      @default(0)
+  descricao       String?  @db.VarChar(255)
+  data_aquisicao  DateTime? @db.Date
+  status          Status   @default(disponível)
 }
 
 // Enum para Status dos Instrumentos
@@ -34,14 +31,11 @@ enum Status {
 
 // Modelo para Fornecedores
 model Fornecedores {
-  id       Int        @id @default(autoincrement())
-  nome     String     @db.VarChar(100)
-  contato  String?    @db.VarChar(100)
-  telefone String?    @db.VarChar(15)
-  email    String?    @db.VarChar(100)
-
-  // Relação com Vendas
-  vendas   Vendas[]   @relation("FornecedorVendas")
+  id       Int      @id @default(autoincrement())
+  nome     String   @db.VarChar(100)
+  contato  String?  @db.VarChar(100)
+  telefone String?  @db.VarChar(15)
+  email    String?  @db.VarChar(100)
 }
 
 // Modelo para Vendas
@@ -54,8 +48,8 @@ model Vendas {
   id_fornecedor Int
 
   // Relações
-  instrumento   Instrumentos @relation("InstrumentoVendas", fields: [id_instrumento], references: [id])
-  fornecedor    Fornecedores @relation("FornecedorVendas", fields: [id_fornecedor], references: [id])
+  instrumento   Instrumentos @relation(fields: [id_instrumento], references: [id])
+  fornecedor     Fornecedores @relation(fields: [id_fornecedor], references: [id])
 }
 
 // Modelo para Clientes
