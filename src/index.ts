@@ -1,17 +1,29 @@
-import express from 'express'
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import instrumentsRoute from './Routes/instruments'
+import dotenv from 'dotenv';
+import instrumentsRoute from './Routes/instruments';
+
+// Configurar variáveis de ambiente
+dotenv.config();
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors()); // Permitir CORS
-app.use(bodyParser.json()); // Para parsear JSON
+app.use(cors());
+app.use(bodyParser.json());
 
-app.use(instrumentsRoute);
+// Rotas
+app.use('/api', instrumentsRoute);
 
-app.listen(3001, () => {
+// Middleware de tratamento de erros
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(error);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+// Iniciar servidor
+app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-})
+});

@@ -21,7 +21,7 @@ class InstrumentRepository {
       FROM Instrumentos
       `)
 
-    return rows;
+    return rows[0];
   }
 
   async create({nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status}: IInstrumento): Promise<IInstrumento>{
