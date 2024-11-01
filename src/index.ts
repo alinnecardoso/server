@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import instrumentsRoute from './Routes/instruments';
+import routes from './Routes/routes';
 
 // Configurar variáveis de ambiente
 dotenv.config();
@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Rotas
-app.use('/api', instrumentsRoute);
+app.use('/api', routes);
 
 // Middleware de tratamento de erros
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
