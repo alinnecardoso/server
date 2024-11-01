@@ -95,7 +95,7 @@ class InstrumentController {
     }
 
     await InstrumentsRepository.delete(idParser);
-    response.status(204);
+    response.sendStatus(204);
   }
 }
 
