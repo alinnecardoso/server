@@ -32,7 +32,6 @@ class InstrumentController {
     response.json(instrument);
   }
 
-
   async store(request:Request, response: Response){
     const { nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status } : IInstruments = request.body;
 

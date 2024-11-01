@@ -38,6 +38,22 @@ class SuppliersController{
     const supplier = await SuppliersRepository.create({nome, contato, telefone, email});
     response.status(201).json(supplier);
   }
+
+  async update(request:Request, response: Response){
+    const { id } = request.params;
+    const idParser = parseInt(id);
+    const { nome, contato, telefone, email } : ISuppliers = request.body;
+
+    //Verifica se o id existe
+    const supplierExists = await SuppliersRepository.findById(idParser);
+    if(!supplierExists){
+      response.status(404).json({ message: 'Supplier not found' });
+    }
+
+    const supplier = await SuppliersRepository.update(idParser, {nome, contato, telefone, email});
+    response.status(201).json(supplier);
+      
+  }
 }
 
 export default new SuppliersController();

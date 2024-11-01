@@ -36,15 +36,20 @@ class SuppliersRepository{
   }
 
   async findById(id:number){
-    if (isNaN(id)) {
-      throw new Error('ID must be a valid number');
-    }
-    
     const row = await db.query(`
       SELECT *
       FROM Fornecedores
       WHERE id = ?
       `, [id])
+      return row[0];
+  }
+
+  async update(id:number, {nome, contato, telefone, email}: ISuppliers){
+    const row = await db.query(`
+      UPDATE Fornecedores
+      SET nome = ?, contato = ?, telefone = ?, email = ?
+      WHERE id = ?
+      `, [nome, contato, telefone, email, id])
       return row[0];
   }
 }

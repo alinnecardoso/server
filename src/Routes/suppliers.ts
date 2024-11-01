@@ -5,6 +5,7 @@ const route =  express.Router();
 
 route.get('/suppliers', SuppliersController.index)
 route.get('/suppliers/:id', SuppliersController.show)
-route.post('/suppliers', SuppliersController.store)
+route.post('/suppliers/:id', SuppliersController.store)
+route.put('/suppliers/:id', SuppliersController.update)
 
 export default route;
