@@ -151,7 +151,10 @@
   - **Parâmetro:** id - o identificador do instrumento.
   - **Resposta:** Retorna o status 204 sem conteúdo
 
+</details>
+
 <hr>
+
 
 <details>
   <summary> Suppliers Routes </summary>
