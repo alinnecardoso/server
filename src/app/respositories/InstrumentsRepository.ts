@@ -1,4 +1,3 @@
-import { response } from 'express';
 import db from '../../db/db'
 
 // Definindo a interface para um instrumento
