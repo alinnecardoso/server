@@ -25,6 +25,28 @@ class SuppliersRepository{
       return row[0];
 
   }
+
+  async findByName(nome: string){
+    const row = await db.query(`
+      SELECT *
+      FROM Fornecedores
+      WHERE nome = ?
+      `, [nome])
+      return row[0];
+  }
+
+  async findById(id:number){
+    if (isNaN(id)) {
+      throw new Error('ID must be a valid number');
+    }
+    
+    const row = await db.query(`
+      SELECT *
+      FROM Fornecedores
+      WHERE id = ?
+      `, [id])
+      return row[0];
+  }
 }
 
 export default new SuppliersRepository();
