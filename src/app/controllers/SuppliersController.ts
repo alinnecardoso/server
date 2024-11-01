@@ -33,6 +33,7 @@ class SuppliersController{
     // Validação nome
     if (!nome) {
       response.status(400).json({ message: 'Name is required' });
+      return;
     }
 
     const supplier = await SuppliersRepository.create({nome, contato, telefone, email});
@@ -53,6 +54,19 @@ class SuppliersController{
     const supplier = await SuppliersRepository.update(idParser, {nome, contato, telefone, email});
     response.status(201).json(supplier);
       
+  }
+
+  async delete(request:Request, response:Response){
+    const { id } = request.params;
+    const idParser = parseInt(id);
+    const supplier = await SuppliersRepository.findById(idParser);
+
+    if(!supplier){
+      response.status(404).json({ message: 'Supplier not found' });
+    }
+
+    await SuppliersRepository.delete(idParser);
+    response.status(204).json({ message: 'Supplier deleted' });
   }
 }
 

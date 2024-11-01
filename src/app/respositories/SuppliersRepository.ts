@@ -52,6 +52,14 @@ class SuppliersRepository{
       `, [nome, contato, telefone, email, id])
       return row[0];
   }
+
+  async delete(id:number){
+    const row = await db.query(`
+      DELETE FROM Fornecedores
+      WHERE id = ?
+      `, [id])
+      return row[0];
+  }
 }
 
 export default new SuppliersRepository();
