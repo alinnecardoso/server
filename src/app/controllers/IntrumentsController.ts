@@ -20,8 +20,27 @@ class InstrumentController {
     response.json(instruments);
   }
 
+  async  show(request: Request, response: Response){
+    const id = request.params.id;
+    const idParser = parseInt(id);
+    const instrument = await InstrumentsRepository.findById(idParser);
+
+    if(!instrument){
+      response.status(404).json({ message: 'Instrument not found' });
+      return;
+    }
+    response.json(instrument);
+  }
+
+
   async store(request:Request, response: Response){
     const { nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status } : IInstruments = request.body;
+
+    if( !nome || !tipo || !preco || !quantidade || !data_aquisicao ){
+      response.status(400).json({ error: "Campo obrigatório não preenchido" });
+      return;
+    }
+
     const newInstrument = await InstrumentsRepository.create({
       nome,
       tipo,
@@ -35,6 +54,49 @@ class InstrumentController {
     });
     response.status(201).json(newInstrument);
   }
+
+  async update(request:Request, response: Response){
+    const id = request.params.id;
+    const idParser = parseInt(id);
+
+    const { nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status } : IInstruments = request.body;
+
+    const instrumentExists = await InstrumentsRepository.findById(idParser);
+
+    if(!instrumentExists){
+      response.status(404).json({ message: 'Instrument not found' });
+      return;
+    }
+
+    const instrument = await InstrumentsRepository.update(idParser, {
+      nome,
+      tipo,
+      marca,
+      modelo,
+      preco,
+      quantidade,
+      descricao,
+      data_aquisicao: new Date(data_aquisicao),
+      status
+    });
+
+    response.json(instrument);
+  }
+
+  async  delete(request: Request, response: Response){
+    const id = request.params.id;
+    const idParser = parseInt(id);
+
+    const instrumentExists = await InstrumentsRepository.findById(idParser);
+
+    if(!instrumentExists){
+      response.status(404).json({ message: 'Instrument not found' });
+      return;
+    }
+
+    await InstrumentsRepository.delete(idParser);
+    response.status(204);
+  }
 }
 
-export default new InstrumentController;
+export default new InstrumentController();

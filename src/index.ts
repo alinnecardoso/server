@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use('/api', instrumentsRoute);
 
 // Middleware de tratamento de erros
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error(error);
   res.status(500).json({ error: 'Internal server error' });
 });
