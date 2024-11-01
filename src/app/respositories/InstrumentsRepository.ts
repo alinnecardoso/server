@@ -1,4 +1,4 @@
-import db from '../../db/db'
+import db from '../../db/db';
 
 // Definindo a interface para um instrumento
 interface IInstrumento {

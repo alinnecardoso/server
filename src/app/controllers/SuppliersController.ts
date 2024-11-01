@@ -1,4 +1,4 @@
-import { request, Request, Response } from "express";
+import { Request, Response } from "express";
 import SuppliersRepository from '../respositories/SuppliersRepository'
 
 interface ISuppliers{
