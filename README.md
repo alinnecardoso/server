@@ -1,5 +1,5 @@
 <details>
-  <summary># Instruments Routes </summary>
+  <summary> Instruments Routes </summary>
 
   Esta API permite gerenciar instrumentos, realizando operações de CRUD (Create, Read, Update, Delete) para adicionar, visualizar, atualizar e excluir instrumentos.
 
@@ -19,6 +19,7 @@
   | DELETE | `/instruments/:id`     | Exclui o instrumento especificado pelo `id`.                              |
 
   ### Exemplos de Requisição e Resposta
+  #### 1. GET /instruments
 
   - **Descrição:** Retorna uma lista de todos os instrumentos cadastrados.
   - **Resposta Exemplo:**
@@ -50,7 +51,7 @@
       }
     ]
 
-  #### 2. GET /instruments
+#### 2. GET /instruments
 
   - **Descrição:** Retorna os detalhes de um instrumento específico.
   - **Parâmetro:** id - o identificador do instrumento.
@@ -72,7 +73,7 @@
     ]
 
 
-  #### 3. POST /instruments
+#### 3. POST /instruments
 
   - **Descrição:** Cria um novo instrumento.
   - **Corpo da Requisição Exemplo:**
@@ -107,7 +108,7 @@
       }
     ]
 
-  #### 4. PUT /instruments/
+#### 4. PUT /instruments/
 
   - **Descrição:** Atualiza os dados de um instrumento existente.
   - **Parâmetro:** id - o identificador do instrumento.
@@ -144,10 +145,137 @@
     ]
 
 
-  #### 5. DELETE /instruments/
+#### 5. DELETE /instruments/
 
   - **Descrição:** Exclui um instrumento específico.
   - **Parâmetro:** id - o identificador do instrumento.
   - **Resposta:** Retorna o status 204 sem conteúdo
 
-</details>
+<hr>
+
+<details>
+  <summary> Suppliers Routes </summary>
+
+  Esta API permite gerenciar fornecedores, permitindo operações de CRUD (Create, Read, Update, Delete) para adicionar, visualizar, atualizar e excluir fornecedores.
+
+## Endpoints
+
+### Base URL
+Todas as rotas têm como base `/suppliers`.
+
+### Rotas
+
+| Método | Endpoint               | Descrição                                                             |
+|--------|------------------------|-----------------------------------------------------------------------|
+| GET    | `/suppliers`          | Retorna uma lista de todos os fornecedores.                           |
+| GET    | `/suppliers/:id`      | Retorna as informações de um fornecedor específico, dado seu `id`.    |
+| POST   | `/suppliers`          | Cria um novo fornecedor com os dados fornecidos no corpo da requisição.|
+| PUT    | `/suppliers/:id`      | Atualiza os dados de um fornecedor existente, especificado pelo `id`. |
+| DELETE | `/suppliers/:id`      | Exclui o fornecedor especificado pelo `id`.                          |
+
+### Exemplos de Requisição e Resposta
+
+#### 1. GET /suppliers
+
+- **Descrição:** Retorna uma lista de todos os fornecedores cadastrados.
+- **Resposta Exemplo:**
+  ```json
+  [
+    {
+      "id": 1,
+      "nome": "Fornecedor A",
+      "contato": "contato@fornecedora.com",
+      "telefone": "1234-5678",
+      "endereco": "Rua Exemplo, 123",
+      "data_aquisicao": "2024-01-15T03:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "nome": "Fornecedor B",
+      "contato": "contato@fornecedorB.com",
+      "telefone": "8765-4321",
+      "endereco": "Avenida Teste, 456",
+      "data_aquisicao": "2024-02-20T03:00:00.000Z"
+    }
+  ]
+
+#### 2. GET /suppliers/
+  - **Descrição:** Retorna os detalhes de um fornecedor específico.
+  - **Parâmetro:** d - o identificador do fornecedor.
+  - **Resposta Exemplo:**
+    ```json
+    [
+      {
+        "id": 1,
+        "nome": "Fornecedor A",
+        "contato": "contato@fornecedora.com",
+        "telefone": "1234-5678",
+        "endereco": "Rua Exemplo, 123",
+        "data_aquisicao": "2024-01-15T03:00:00.000Z"
+      }
+    ]
+
+
+#### 3. POST /suppliers
+
+  - **Descrição:** Cria um novo fornecedor.
+  - **Corpo da Requisição Exemplo:**
+  ```json
+    {
+      "nome": "Fornecedor C",
+      "contato": "contato@fornecedorC.com",
+      "telefone": "0000-1111",
+      "endereco": "Praça Novo, 789",
+      "data_aquisicao": "2024-11-01T03:00:00.000Z"
+    }
+
+    ```
+
+  - **Resposta Exemplo:**
+    ```json
+    [
+      {
+        "id": 3,
+        "nome": "Fornecedor C",
+        "contato": "contato@fornecedorC.com",
+        "telefone": "0000-1111",
+        "endereco": "Praça Novo, 789",
+        "data_aquisicao": "2024-11-01T03:00:00.000Z"
+      }
+    ]
+
+#### 4. PUT /suppliers/
+
+  - **Descrição:** Atualiza os dados de um fornecedor existente.
+  - **Parâmetro:**  id - o identificador do fornecedor.
+  - **Corpo da Requisição Exemplo:**
+  ```json
+    {
+      "nome": "Fornecedor C Atualizado",
+      "contato": "contato@fornecedorC.com",
+      "telefone": "0000-2222",
+      "endereco": "Praça Novo, 789 Atualizada",
+      "data_aquisicao": "2024-11-01T03:00:00.000Z"
+    }
+
+    ```
+
+  - **Resposta Exemplo:**
+    ```json
+    [
+      {
+        "id": 3,
+        "nome": "Fornecedor C Atualizado",
+        "contato": "contato@fornecedorC.com",
+        "telefone": "0000-2222",
+        "endereco": "Praça Novo, 789 Atualizada",
+        "data_aquisicao": "2024-11-01T03:00:00.000Z"
+      }
+    ]
+
+
+#### 5. DELETE /suppliers/
+
+  - **Descrição:** Exclui um fornecedor específico.
+  - **Parâmetro:** id - o identificador do fornecedor.
+  - **Resposta:** Retorna o status 204 sem conteúdo.
