@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Rotas
-app.use('/api', routes);
+app.use('/api/v1', routes);
 
 // Middleware de tratamento de erros
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
