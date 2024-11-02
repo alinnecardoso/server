@@ -31,6 +31,8 @@ class UsersController {
     // Hashing da senha
     const hashedPassword = await bcrypt.hash(senha, 10);
 
+    //Fazer a verificação se o email já existe
+
     const user = await UsersRepository.create({ nome, email, senha: hashedPassword });
     response.status(201).json(user);
 
