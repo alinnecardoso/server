@@ -16,7 +16,7 @@ class UsersRepository{
     return rows[0];
   }
 
-  async findById(id:number){
+  async findById(id:string){
     const rows = await db.query(`
       SELECT *
       FROM Usuarios
