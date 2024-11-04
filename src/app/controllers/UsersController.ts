@@ -1,6 +1,6 @@
+import bcrypt from 'bcrypt';
 import { Request, Response } from "express";
 import UsersRepository from '../respositories/UsersRepository';
-import bcrypt from 'bcrypt';
 
 interface IUser{
   nome:string;
@@ -28,10 +28,15 @@ class UsersController {
   async store(request:Request, response:Response){
     const { nome, email, senha } : IUser = request.body;
 
+    //Fazer a verificação se o email já existe
+    const emailExists = await UsersRepository.findByEmail(email);
+    if(!emailExists){
+      response.status(400).json({ message: 'Email already exists' });
+      return;
+    }
+
     // Hashing da senha
     const hashedPassword = await bcrypt.hash(senha, 10);
-
-    //Fazer a verificação se o email já existe
 
     const user = await UsersRepository.create({ nome, email, senha: hashedPassword });
     response.status(201).json(user);
@@ -39,9 +44,38 @@ class UsersController {
 
   }
 
-  async update(request:Request, response: Response){}
+  async update(request:Request, response: Response){
+    const { id } = request.params;
 
-  async delete(request:Request, response:Response){}
+    const { nome, email, senha } = request.body;
+
+    const userExists = await UsersRepository.findById(id);
+    if(!userExists){
+      response.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    if(!nome || !email || !senha){
+      response.status(400).json({ message: 'All fields are required' });
+      return;
+    }
+
+    const user = await UsersRepository.update(id,  { nome, email, senha });
+    response.status(201).json(user);
+  }
+
+  async delete(request:Request, response:Response){
+    const { id } = request.params;
+
+    const userExists = await UsersRepository.findById(id);
+
+    if(!userExists){
+      response.status(404).json({ message: 'User not found' });
+    }
+
+    await UsersRepository.delete(id);
+    response.status(204).json({ message: 'User deleted' });
+  }
 }
 
 export default new UsersController;

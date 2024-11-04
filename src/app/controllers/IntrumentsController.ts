@@ -11,6 +11,7 @@ interface IInstruments{
   descricao?: string; // Opcional
   data_aquisicao: string; // Use Date para tratar datas
   status: 'disponível' | 'vendido'; // Limitar aos valores do ENUM
+  id_fornecedor: number;
 }
 
 class InstrumentController {
@@ -33,7 +34,7 @@ class InstrumentController {
   }
 
   async store(request:Request, response: Response){
-    const { nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status } : IInstruments = request.body;
+    const { nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status, id_fornecedor } : IInstruments = request.body;
 
     if( !nome || !tipo || !preco || !quantidade || !data_aquisicao ){
       response.status(400).json({ error: "Campo obrigatório não preenchido" });
@@ -50,6 +51,7 @@ class InstrumentController {
       descricao,
       data_aquisicao: new Date(data_aquisicao), // Converte a string de data em objeto Date
       status,
+      id_fornecedor,
     });
     response.status(201).json(newInstrument);
   }
@@ -58,7 +60,7 @@ class InstrumentController {
     const id = request.params.id;
     const idParser = parseInt(id);
 
-    const { nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status } : IInstruments = request.body;
+    const { nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status, id_fornecedor } : IInstruments = request.body;
 
     const instrumentExists = await InstrumentsRepository.findById(idParser);
 
@@ -76,7 +78,8 @@ class InstrumentController {
       quantidade,
       descricao,
       data_aquisicao: new Date(data_aquisicao),
-      status
+      status,
+      id_fornecedor,
     });
 
     response.json(instrument);

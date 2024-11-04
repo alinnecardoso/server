@@ -1,4 +1,4 @@
-import db from '../../db/db'
+import db from '../../db/db';
 
 interface ISuppliers{
   nome: string;
@@ -19,7 +19,7 @@ class SuppliersRepository{
 
   async create({nome, contato, telefone, email}: ISuppliers){
     const row = await db.query(`
-      INSERT INTO Fornecedores (nome, contato, telefone, email)
+      INSERT INTO Fornecedores(nome, contato, telefone, email)
       VALUES (?,?,?,?)
       `, [nome, contato, telefone, email])
       return row[0];

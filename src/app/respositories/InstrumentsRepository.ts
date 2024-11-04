@@ -11,6 +11,7 @@ interface IInstrumento {
   descricao?: string; // Opcional
   data_aquisicao: Date; // Usando Date para representar datas
   status: 'disponível' | 'vendido'; // Usando ENUM para limitar os valores
+  id_fornecedor: number;
 }
 
 class InstrumentRepository {
@@ -32,23 +33,23 @@ class InstrumentRepository {
     return rows[0];
   }
 
-  async create({nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status}: IInstrumento): Promise<IInstrumento>{
+  async create({nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status, id_fornecedor}: IInstrumento): Promise<IInstrumento>{
     const [row]: any = await db.query(
-      `INSERT INTO Instrumentos(nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status]
+      `INSERT INTO Instrumentos(nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status, id_fornecedor)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `, [nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status, id_fornecedor]
     )
 
-    return row;
+    return row[0];
   }
 
-  async update(id:number, {nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status}: IInstrumento): Promise<IInstrumento>{
+  async update(id:number, {nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status, id_fornecedor}: IInstrumento): Promise<IInstrumento>{
     const [row]: any = await db.query(`
       UPDATE Instrumentos
       SET nome = ?, tipo = ?, marca = ?, modelo = ?, preco = ?, quantidade = ?,
-      descricao = ?, data_aquisicao = ?, status = ?
+      descricao = ?, data_aquisicao = ?, status = ?, i = ?
       WHERE id = ?
-      `, [nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status, id]);
+      `, [nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status, id_fornecedor,id]);
 
       return row[0];
   }
