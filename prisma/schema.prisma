@@ -7,90 +7,80 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Modelo para Instrumentos
 model Instrumentos {
-  id             Int           @id @default(autoincrement())
-  nome           String        @db.VarChar(100)
-  tipo           String        @db.VarChar(50)
-  marca          String?       @db.VarChar(50)
-  modelo         String?       @db.VarChar(50)
-  preco          Decimal       @db.Decimal(10, 2)
-  quantidade     Int           @default(0)
-  descricao      String?       @db.VarChar(255)
+  id             Int          @id @default(autoincrement())
+  nome           String       @db.VarChar(100)
+  tipo           String       @db.VarChar(50)
+  marca          String?      @db.VarChar(50)
+  modelo         String?      @db.VarChar(50)
+  preco          Decimal      @db.Decimal(10, 2)
+  quantidade     Int          @default(0)
+  descricao      String?      @db.VarChar(255)
   data_aquisicao DateTime?
-  status         Status        @default(disponivel)
-  created_at     DateTime      @default(now())
-  updated_at     DateTime      @updatedAt
-
-  // Chave estrangeira e relação com Fornecedores
+  status         Status       @default(disponivel)
+  created_at     DateTime?    @default(now()) @db.DateTime(0)
+  updated_at     DateTime?    @default(now()) @updatedAt @db.DateTime(0)
   id_fornecedor  Int
-  fornecedor     Fornecedores  @relation(fields: [id_fornecedor], references: [id])
-
+  fornecedor     Fornecedores @relation(fields: [id_fornecedor], references: [id])
   Vendas         Vendas[]
+
+  @@index([id_fornecedor], map: "Instrumentos_id_fornecedor_fkey")
 }
 
-// Enum para Status dos Instrumentos
-enum Status {
-  disponivel
-  vendido
-}
-
-// Modelo para Fornecedores
 model Fornecedores {
-  id         Int           @id @default(autoincrement())
-  nome       String        @db.VarChar(100)
-  contato    String?       @db.VarChar(100)
-  telefone   String?       @db.VarChar(15)
-  email      String?       @db.VarChar(100)
-  created_at DateTime      @default(now())
-  updated_at DateTime      @updatedAt
-
-  // Relacionamento inverso com Instrumentos
+  id           Int            @id @default(autoincrement())
+  nome         String         @db.VarChar(100)
+  contato      String?        @db.VarChar(100)
+  telefone     String?        @db.VarChar(15)
+  email        String?        @db.VarChar(100)
+  created_at   DateTime?      @default(now()) @db.DateTime(0)
+  updated_at   DateTime?      @default(now()) @updatedAt @db.DateTime(0)
   Instrumentos Instrumentos[]
 }
 
-// Modelo para Vendas
 model Vendas {
-  id             Int           @id @default(autoincrement())
+  id             Int          @id @default(autoincrement())
   id_instrumento Int
-  data_venda     DateTime      @db.Date
+  data_venda     DateTime     @db.Date
   quantidade     Int
-  preco_total    Decimal       @db.Decimal(10, 2)
+  preco_total    Decimal      @db.Decimal(10, 2)
+  created_at     DateTime?    @default(now()) @db.DateTime(0)
+  updated_at     DateTime?    @default(now()) @updatedAt @db.DateTime(0)
   id_cliente     Int
-  created_at     DateTime      @default(now())
-  updated_at     DateTime      @updatedAt
+  cliente        Clientes     @relation(fields: [id_cliente], references: [id])
+  instrumento    Instrumentos @relation(fields: [id_instrumento], references: [id])
 
-  // Relações
-  instrumento    Instrumentos   @relation(fields: [id_instrumento], references: [id])
-  cliente        Clientes       @relation(fields: [id_cliente], references: [id])
+  @@index([id_cliente], map: "Vendas_id_cliente_fkey")
+  @@index([id_instrumento], map: "Vendas_id_instrumento_fkey")
 }
 
-// Modelo para Clientes
 model Clientes {
-  id           Int           @id @default(autoincrement())
-  nome         String        @db.VarChar(100)
-  telefone     String?       @db.VarChar(15)
-  email        String?       @db.VarChar(100)
-  rua          String?       @db.VarChar(100)
-  numero       String?       @db.VarChar(10)
-  complemento  String?       @db.VarChar(50)
-  bairro       String?       @db.VarChar(50)
-  cidade       String?       @db.VarChar(50)
-  estado       String?       @db.VarChar(50)
-  cep          String?       @db.VarChar(10)
-  created_at   DateTime      @default(now())
-  updated_at   DateTime      @updatedAt
-
-  // Relação com Vendas
-  Vendas       Vendas[]
+  id          Int       @id @default(autoincrement())
+  nome        String    @db.VarChar(100)
+  telefone    String?   @db.VarChar(15)
+  email       String?   @db.VarChar(100)
+  rua         String?   @db.VarChar(100)
+  numero      String?   @db.VarChar(10)
+  complemento String?   @db.VarChar(50)
+  bairro      String?   @db.VarChar(50)
+  cidade      String?   @db.VarChar(50)
+  estado      String?   @db.VarChar(50)
+  cep         String?   @db.VarChar(10)
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+  updated_at  DateTime? @default(now()) @updatedAt @db.DateTime(0)
+  Vendas      Vendas[]
 }
 
-// Modelo para Usuarios
 model Usuarios {
-  id          String         @id @default(uuid()) @db.Char(36)
-  nome        String         @db.VarChar(255)
-  email       String         @unique @db.VarChar(255)
-  senha       String         @db.VarChar(255)
-  created_at  DateTime       @default(now())
-  updated_at  DateTime       @updatedAt
+  id         String    @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  nome       String    @db.VarChar(255)
+  email      String    @unique(map: "email") @db.VarChar(255)
+  senha      String    @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @updatedAt @db.Timestamp(0)
+}
+
+enum Status {
+  disponivel
+  vendido
 }
