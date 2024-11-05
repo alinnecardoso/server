@@ -47,7 +47,7 @@ class InstrumentRepository {
     const [row]: any = await db.query(`
       UPDATE Instrumentos
       SET nome = ?, tipo = ?, marca = ?, modelo = ?, preco = ?, quantidade = ?,
-      descricao = ?, data_aquisicao = ?, status = ?, i = ?
+      descricao = ?, data_aquisicao = ?, status = ?, id_fornecedor = ?
       WHERE id = ?
       `, [nome, tipo, marca, modelo, preco, quantidade, descricao, data_aquisicao, status, id_fornecedor,id]);
 
