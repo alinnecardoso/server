@@ -31,7 +31,12 @@ class SalesController{
 
   async update(request:Request, response: Response){}
 
-  async delete(request:Request, response:Response){}
+  async delete(request:Request, response:Response){
+    const id = request.params.id;
+    const idParser = parseInt(id);
+    await SalesRepository.delete(idParser);
+    response.status(204).send();
+  }
 }
 
 export default new SalesController();

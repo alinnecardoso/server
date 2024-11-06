@@ -37,7 +37,12 @@ class SalesRepository{
 
   async update(){}
 
-  async delete(){}
+  async delete(id:number){
+    await db.query(`
+      DELETE FROM Vendas
+      WHERE id = ?
+      `, [id])
+  }
 }
 
 export default new SalesRepository();

@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { Request, Response } from "express";
 import UsersRepository from '../respositories/UsersRepository';
 
@@ -76,6 +77,7 @@ class UsersController {
     await UsersRepository.delete(id);
     response.status(204).json({ message: 'User deleted' });
   }
+
 }
 
 export default new UsersController;
