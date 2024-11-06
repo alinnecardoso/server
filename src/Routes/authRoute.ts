@@ -1,4 +1,3 @@
-// authRoute.ts
 import { Router } from 'express';
 import AuthController from '../app/controllers/AuthController';
 
